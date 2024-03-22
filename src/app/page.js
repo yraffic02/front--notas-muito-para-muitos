@@ -1,9 +1,16 @@
-import styles from "./page.module.css";
+import Link from "next/link";
+import { ListCardsNotas } from "./components/ListCardsNotas";
+
 
 export default function Home() {
   return (
-    <main>
-      <h1>oi</h1>
+    <main className="container mt-5">
+      <Link
+        href='/tags'
+      >
+        Ver lista de tags
+      </Link>
+      <ListCardsNotas />
     </main>
   );
 }
