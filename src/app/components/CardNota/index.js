@@ -17,7 +17,7 @@ export const CardNota = ({nota, handleEdit, handleDelete}) =>{
                             </span>
                         ))}
                         </div>
-                        : <p>Não tags para esta nota!</p>
+                        : <p>Não há tags para esta nota!</p>
                     }
                     <Button
                         onClick={() => handleEdit(nota)}
