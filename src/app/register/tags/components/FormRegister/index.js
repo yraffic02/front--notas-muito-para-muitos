@@ -26,14 +26,14 @@ export const FormRegisterTag = () => {
       try {
       const tag = {
           ...data,
-          tags: selectedNotas.map((nota) => nota.id)
+          notas: selectedNotas.map((nota) => nota.id)
       }
 
       const res = await api.post('/tags', tag)
 
       if(res.status  === 201){
           return res
-      }
+      } 
       } catch (error) {
       console.log(error);
       }
