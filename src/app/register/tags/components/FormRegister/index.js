@@ -1,11 +1,10 @@
 "use client"
 import { Button, TypeButton } from "@/components/Button";
-import { useHookFormTags } from "./useFormTags";
 import { api } from "@/lib/api";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaTag } from "@/validation/validationTag";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
 
 export const FormRegisterTag = () => {
