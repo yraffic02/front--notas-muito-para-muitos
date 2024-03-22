@@ -16,12 +16,12 @@ export const Search = ({tags}) =>{
     
     return(
         <select 
-            class="form-select w-50 " 
+            className="form-select w-50 " 
             aria-label="Default select example"
             onChange={(e)=> handleSearchNotas(e.target.value)}
             defaultValue={selectedTag}
         >
-            <option selected value=''>Filtro tag</option>
+            <option defaultValue>Filtro tag</option>
             {
                 tags.length === 0 &&
                 ''
