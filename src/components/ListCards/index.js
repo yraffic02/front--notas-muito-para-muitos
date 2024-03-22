@@ -1,9 +1,8 @@
 'use client'
 import { api } from "@/lib/api";
 import { useEffect, useState } from "react";
-import { Spiner } from "../Spiner";
-import { Button, TypeButton } from "../Button";
 import { Card } from "../Card";
+import { Spiner } from "../Spiner";
 
 export const ListCards = () =>{
     const [notas, setNotas] = useState([]);
