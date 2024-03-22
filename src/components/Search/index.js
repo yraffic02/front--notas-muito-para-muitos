@@ -5,14 +5,14 @@ import { useState } from "react"
 import { useDispatch } from "react-redux"
 
 export const Search = ({tags}) =>{
-    const dispatch = useDispatch()
+    /* const dispatch = useDispatch()
     const [selectedTag, setSelectedTag] = useState(""); 
     
     const handleSearchNotas = (id) =>{
         setSelectedTag(id)
         dispatch(getNotasByTagId(id))
     }
-
+ */
     
     return(
         <select 

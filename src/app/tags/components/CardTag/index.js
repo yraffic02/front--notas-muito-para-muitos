@@ -17,7 +17,7 @@ export const CardTag = ({tag, handleEditTag, handleDeleteTag}) =>{
                             </span>
                         ))}
                         </div>
-                        : <p>Não notas para esta tag!</p>
+                        : <p>Não há notas para esta tag!</p>
                     }
                     <Button
                         onClick={() => handleEditTag(tag.id)}
