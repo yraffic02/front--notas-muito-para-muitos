@@ -2,6 +2,7 @@
 import { api } from "@/lib/api";
 import { useEffect, useState } from "react";
 import { Spiner } from "../Spiner";
+import { Button, TypeButton } from "../Button";
 
 export const ListCards = () =>{
     const [notas, setNotas] = useState([]);
@@ -63,18 +64,19 @@ export const ListCards = () =>{
                                 </div>
                                 : <p>Não tags para esta nota!</p>
                             }
-                            <button
+                            <Button
                                 onClick={() => handleEdit(nota.id)}
                                 className="btn btn-primary me-2"
+                                typeButton={TypeButton.PRIMARY}
                             >
                                 Editar
-                            </button>
-                            <button
+                            </Button>
+                            <Button
                                 onClick={() => handleDelete(nota.id)}
-                                className="btn btn-danger"
+                                typeButton={TypeButton.SECONDARY}
                             >
                                 Excluir
-                            </button>
+                            </Button>
                         </div>
                     </div>
                 ))}
