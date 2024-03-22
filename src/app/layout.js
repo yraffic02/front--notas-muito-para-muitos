@@ -2,6 +2,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect } from "react";
 import "./globals.css";
+import { Header } from "@/components/Header";
 
 export default function RootLayout({ children }) {
 
@@ -15,6 +16,7 @@ export default function RootLayout({ children }) {
         <title>Muitos para Muitos - Front</title>
       </head>
       <body>
+        <Header />
         {children}
       </body>
     </html>
