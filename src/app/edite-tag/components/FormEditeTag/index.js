@@ -13,15 +13,14 @@ export const FormEditeTag = () => {
   const tag = useSelector((state)=>  state.tagReducer.value)
   const router = useRouter()
 
-  const resolveData = async (data) => {
+  const resolveData = async () => {
       try {
         const updateTag = {
-            titulo: titulo,
-            conteudo: conteudo,
-            tags: selectedNotas.map((nota) => nota.id)
+          titulo: titulo,
+          notas: selectedNotas.map((nota) => nota.id)
         }
-
-        const res = await api.patch(`/tag/${tag.id}`, updateTag)
+    
+        const res = await api.patch(`/tags/${tag.id}`, updateTag)
 
         return res
       } catch (error) {
@@ -35,7 +34,7 @@ export const FormEditeTag = () => {
 
       setNotas(data);
 
-      const selectedNotasFromTag = notas.Tags.map(notaTag => notaTag.id);
+      const selectedNotasFromTag = tag.Notas.map(notaTag => notaTag.id);
 
       const filteredNotas = data.filter(nota => selectedNotasFromTag.includes(nota.id));
     
@@ -48,11 +47,12 @@ export const FormEditeTag = () => {
   useEffect(() => {
       getNotas();
       
-      setSelectedNotas([...selectedNotas, notas.Tags]) 
+      setSelectedNotas([...selectedNotas, tag.Notas]) 
       setTitulo(tag.titulo)
   }, [tag])
     
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     try {
       const res = await toast.promise(
         resolveData(),
@@ -73,9 +73,7 @@ export const FormEditeTag = () => {
           },
       );
 
-      if(res){
-        router.push('/tags')
-      }
+      return router.back()
     } catch (error) {
       console.error(error);
     }
