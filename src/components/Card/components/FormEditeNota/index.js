@@ -1,75 +1,67 @@
 "use client"
-import { api } from "@/lib/api"
-import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, TypeButton } from "@/components/Button";
-import { schemaNota } from "@/validation/validationNota";
+import { api } from "@/lib/api";
+import { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 export const FormEditeNota = () => {
   const [tags, setTags] = useState([])
   const [selectedTags, setSelectedTags] = useState([])
-  const [nota, setNota] = useState({})
-  const {
-      register,
-      handleSubmit,
-      formState: { errors },
-      reset,
-    } = useForm({
-      mode: "all",
-      reValidateMode: "onChange",
-      resolver: yupResolver(schemaNota),
-    });
-
-    const resolveData = async (data) => {
-        try {
-        const nota = {
-            ...data,
+  const nota = useSelector((state)=>  state.notaReducer.value)
+  const [titulo, setTitulo] = useState('')
+  const [conteudo, setConteudo] = useState('')
+  
+  const resolveData = async (data) => {
+      try {
+        const updateNota = {
+            titulo: titulo,
+            conteudo: conteudo,
             tags: selectedTags.map((tag) => tag.id)
         }
 
-        const res = await api.post('/notas', nota)
+        const res = await api.patch(`/notas/${nota.id}`, updateNota)
 
-        if(res.status  === 201){
-            return res
-        }
-        } catch (error) {
+        return res
+      } catch (error) {
         console.log(error);
-        }
-    }
+      }
+  }
   
-    const getTags = async () => {
-        try {
-            const { data } = await api.get('/tags');
-            
-            setTags(data);
-            
-            const selectedTagsFromNota = nota.Tags.map(notaTag => notaTag.id);
-            console.log(selectedTagsFromNota)
-            const filteredTags = data.filter(tag => selectedTagsFromNota.includes(tag.id));
-            console.log(filteredTags)
-            
-            setSelectedTags(filteredTags)
-        } catch (error) {
-            console.log(error);
-        }
-    }
-  
-    useEffect(() => {
-        getTags();
-    }, [])
+  const getTags = async () => {
+    try {
+      const { data } = await api.get('/tags');
+
+      setTags(data);
+
+      const selectedTagsFromNota = nota.Tags.map(notaTag => notaTag.id);
+
+      const filteredTags = data.filter(tag => selectedTagsFromNota.includes(tag.id));
     
-    const onSubmit = async (data) => {
-        try {
-        const res = await toast.promise(
-            resolveData(data),
-            {
+      setSelectedTags(filteredTags);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  useEffect(() => {
+      getTags();
+      
+      setSelectedTags([...selectedTags, nota.Tags])
+      setTitulo(nota.titulo)
+      setConteudo(nota.conteudo)
+  }, [nota])
+    
+  const handleSubmit = async () => {
+    try {
+      const res = await toast.promise(
+        resolveData(),
+          {
             pending: "Aguarde!",
             success: "Nota Criada",
             error: "Algo deu errado!",
-            },
-            {
+          },
+          {
             position: "top-center",
             autoClose: 900,
             hideProgressBar: false,
@@ -78,16 +70,14 @@ export const FormEditeNota = () => {
             draggable: true,
             progress: undefined,
             theme: "light",
-            },
-        );
+          },
+      );
 
-        if (res) {
-            reset();
-        }
-        } catch (error) {
-        console.error(error);
-        }
+
+    } catch (error) {
+      console.error(error);
     }
+  }
 
   const handleTagClick = (tag) => {
     const isSelected = selectedTags.includes(tag);
@@ -98,10 +88,10 @@ export const FormEditeNota = () => {
       setSelectedTags([...selectedTags, tag]);
     }
   }
-  
+
   return(
       <>
-          <form className="row g-3 needs-validation" onSubmit={handleSubmit(onSubmit)}>
+          <form className="row g-3 needs-validation" onSubmit={handleSubmit}>
               <div className="col-md-4">
                   <label 
                     htmlFor="titulo" 
@@ -114,14 +104,9 @@ export const FormEditeNota = () => {
                       type="text" 
                       className="form-control" 
                       id="titulo" 
-                      {...register("titulo")}
-                      defaultValue={nota.titulo}
+                      defaultValue={titulo}
+                      onChange={(e)=> setTitulo(e.target.value)}                    
                     />
-                    <p 
-                      className="fs-6 text-danger"
-                    >
-                      {errors.titulo?.message}
-                    </p>
                   </div>
               </div>
               <div className="col-md-4">
@@ -136,12 +121,9 @@ export const FormEditeNota = () => {
                       type="text" 
                       className="form-control" 
                       id="conteudo"
-                      {...register("conteudo")}
-                      defaultValue={nota.conteudo}
+                      defaultValue={conteudo}
+                      onChange={(e)=> setConteudo(e.target.value)}
                     />
-                    <p className="fs-6 text-danger">
-                      {errors.conteudo?.message}
-                    </p>
                   </div>
               </div>
               <div className="col-md-3">
@@ -172,7 +154,6 @@ export const FormEditeNota = () => {
                   <Button 
                       typeButton={TypeButton.PRIMARY} 
                       type="submit"
-                      data-bs-dismiss="modal"
                   >
                       Criar nota
                   </Button>
