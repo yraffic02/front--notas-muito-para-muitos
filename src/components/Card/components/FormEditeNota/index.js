@@ -6,55 +6,57 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, TypeButton } from "@/components/Button";
 import { schemaNota } from "@/validation/validationNota";
 import { toast } from 'react-toastify';
+import {useSelector} from 'react-redux'
 
 export const FormEditeNota = () => {
   const [tags, setTags] = useState([])
   const [selectedTags, setSelectedTags] = useState([])
-  const [nota, setNota] = useState({})
+  const nota = useSelector((state)=>  state.notaReducer.value)
   const {
-      register,
-      handleSubmit,
-      formState: { errors },
-      reset,
-    } = useForm({
-      mode: "all",
-      reValidateMode: "onChange",
-      resolver: yupResolver(schemaNota),
-    });
-
-    const resolveData = async (data) => {
-        try {
-        const nota = {
-            ...data,
-            tags: selectedTags.map((tag) => tag.id)
-        }
-
-        const res = await api.post('/notas', nota)
-
-        if(res.status  === 201){
-            return res
-        }
-        } catch (error) {
-        console.log(error);
-        }
-    }
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    mode: "all",
+    reValidateMode: "onChange",
+    resolver: yupResolver(schemaNota),
+  });
   
-    const getTags = async () => {
-        try {
-            const { data } = await api.get('/tags');
-            
-            setTags(data);
-            
-            const selectedTagsFromNota = nota.Tags.map(notaTag => notaTag.id);
-            console.log(selectedTagsFromNota)
-            const filteredTags = data.filter(tag => selectedTagsFromNota.includes(tag.id));
-            console.log(filteredTags)
-            
-            setSelectedTags(filteredTags)
-        } catch (error) {
-            console.log(error);
-        }
-    }
+
+  const resolveData = async (data) => {
+      try {
+      const nota = {
+          ...data,
+          tags: selectedTags.map((tag) => tag.id)
+      }
+
+      const res = await api.post('/notas', nota)
+
+      if(res.status  === 201){
+          return res
+      }
+      } catch (error) {
+      console.log(error);
+      }
+  }
+  
+  const getTags = async () => {
+      try {
+          const { data } = await api.get('/tags');
+          
+          setTags(data);
+          
+          const selectedTagsFromNota = nota.Tags.map(notaTag => notaTag.id);
+          console.log(selectedTagsFromNota)
+          const filteredTags = data.filter(tag => selectedTagsFromNota.includes(tag.id));
+          console.log(filteredTags)
+          
+          setSelectedTags(filteredTags)
+      } catch (error) {
+          console.log(error);
+      }
+  }
   
     useEffect(() => {
         getTags();

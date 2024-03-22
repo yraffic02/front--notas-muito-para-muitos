@@ -3,10 +3,13 @@ import { api } from "@/lib/api";
 import { useEffect, useState } from "react";
 import { Card } from "../Card";
 import { Spiner } from "../Spiner";
+import { useDispatch } from 'react-redux'
+import { getNota } from "@/redux/features/nota-slice";
 
 export const ListCards = () =>{
     const [notas, setNotas] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
+    const dispatch = useDispatch()
 
     const getNotas = async () => {
         try {
@@ -23,8 +26,7 @@ export const ListCards = () =>{
     };
 
     const handleEdit = (id) => {
-    
-        console.log(`Editar nota com ID ${id}`);
+        dispatch(getNota(id))
     };
 
     const handleDelete = async (id) => {
