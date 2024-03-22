@@ -1,10 +1,10 @@
-import { ListCards } from "@/components/ListCards";
-import { useDispatch } from "react-redux";
+import { ListCardsNotas } from "./components/ListCardsNotas";
+
 
 export default function Home() {
   return (
     <main className="container mt-5">
-      <ListCards />
+      <ListCardsNotas />
     </main>
   );
 }

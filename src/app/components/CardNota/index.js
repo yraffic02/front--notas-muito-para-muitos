@@ -1,7 +1,8 @@
-import { Button, TypeButton } from "../Button"
+
+import { Button, TypeButton } from "@/components/Button"
 import { FormEditeNota } from "./components/FormEditeNota"
 
-export const Card = ({nota, handleEdit, handleDelete}) =>{
+export const CardNota = ({nota, handleEdit, handleDelete}) =>{
     return(
         <>
             <div className="card mb-3">
