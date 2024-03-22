@@ -1,29 +1,16 @@
 'use client'
 import { api } from "@/lib/api";
+import { getNota } from "@/redux/features/nota-slice";
+import { getNotas } from "@/redux/features/notas-slice";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { Card } from "../Card";
 import { Spiner } from "../Spiner";
-import { useDispatch } from 'react-redux'
-import { getNota } from "@/redux/features/nota-slice";
 
 export const ListCards = () =>{
-    const [notas, setNotas] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
     const dispatch = useDispatch()
-
-    const getNotas = async () => {
-        try {
-            setIsLoading(true)
-
-            const { data } = await api.get('/notas');
-        
-            setNotas(data);
-        } catch (error) {
-            console.log(error);
-        } finally {
-           return setIsLoading(false)
-        }
-    };
+    const notas = useSelector((state)=>  state.notasReducer.value)
 
     const handleEdit = (id) => {
         dispatch(getNota(id))
@@ -33,15 +20,15 @@ export const ListCards = () =>{
         try {
             await api.delete(`/notas/${id}`);
             
-            setNotas(notas.filter((nota) => nota.id !== id));
+            dispatch(getNotas())
         } catch (error) {
             console.log(error);
         }
     };
 
-    useEffect(() => {
-        getNotas();
-    }, []);
+    useEffect(()=>{
+        dispatch(getNotas())
+    }, [])
 
     return(
         <div>
