@@ -1,18 +1,9 @@
-import Link from "next/link";
+import { FormRegister } from "./components/FormRegister";
 
 export default function Home() {
   return (
-    <main>
-        <Link
-            href='/registro/notas'
-        >
-            Criar nota
-        </Link>
-        <Link
-            href='/registro/tags'
-        >
-            Criar tags
-        </Link>
+    <main className="p-3 ">
+        <FormRegister />
     </main>      
   );
 }
