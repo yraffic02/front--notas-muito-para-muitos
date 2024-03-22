@@ -1,8 +1,8 @@
 
 import { Button, TypeButton } from "@/components/Button"
-import { FormEditeTag } from "./components/FormEditeTag"
+import { FormEditeTag } from "../../../edite-tag/components/FormEditeTag"
 
-export const CardTag = ({tag, handleEdit, handleDelete}) =>{
+export const CardTag = ({tag, handleEditTag, handleDeleteTag}) =>{
     return(
         <>
             <div className="card mb-3">
@@ -20,23 +20,21 @@ export const CardTag = ({tag, handleEdit, handleDelete}) =>{
                         : <p>Não notas para esta tag!</p>
                     }
                     <Button
-                        onClick={() => handleEdit(tag)}
+                        onClick={() => handleEditTag(tag.id)}
                         className="btn btn-primary me-2"
                         typeButton={TypeButton.PRIMARY}
-                        data-bs-toggle="modal" data-bs-target="#exampleModal"
                     >
                         Editar
                     </Button>
                     <Button
-                        onClick={() => handleDelete(tag.id)}
+                        onClick={() => handleDeleteTag(tag.id)}
                         typeButton={TypeButton.SECONDARY}
-                        
                     >
                         Excluir
                     </Button>
                 </div>
             </div>
-            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            {/* <div className="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
                         <div className="modal-content">
                         <div className="modal-header">
@@ -51,7 +49,7 @@ export const CardTag = ({tag, handleEdit, handleDelete}) =>{
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </>
     )
 }

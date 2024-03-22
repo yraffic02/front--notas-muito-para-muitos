@@ -6,8 +6,7 @@ const initialState = {
   value: {
     id: 0,
     titulo: "",
-    conteudo: "",
-    Tags: []
+    Ntoas: []
   },
   status: 'idle',
   error: null
@@ -15,7 +14,7 @@ const initialState = {
 
 export const getTag = createAsyncThunk('nota/getNota', async (tag, thunkAPI) => {
   try {
-    const response = await api.get(`/tags/${tag.id}`);
+    const response = await api.get(`/tags/${tag}`);
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data); 

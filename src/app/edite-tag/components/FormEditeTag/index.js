@@ -5,22 +5,21 @@ import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-export const FormEditeNota = () => {
-  const [tags, setTags] = useState([])
-  const [selectedTags, setSelectedTags] = useState([])
-  const nota = useSelector((state)=>  state.notaReducer.value)
+export const FormEditeTag = () => {
+  const [notas, setNotas] = useState([])
+  const [selectedNotas, setSelectedNotas] = useState([])
   const [titulo, setTitulo] = useState('')
-  const [conteudo, setConteudo] = useState('')
-  
+  const tag = useSelector((state)=>  state.tagReducer.value)
+
   const resolveData = async (data) => {
       try {
-        const updateNota = {
+        const updateTag = {
             titulo: titulo,
             conteudo: conteudo,
-            tags: selectedTags.map((tag) => tag.id)
+            tags: selectedNotas.map((nota) => nota.id)
         }
 
-        const res = await api.patch(`/notas/${nota.id}`, updateNota)
+        const res = await api.patch(`/tag/${tag.id}`, updateTag)
 
         return res
       } catch (error) {
@@ -28,29 +27,28 @@ export const FormEditeNota = () => {
       }
   }
   
-  const getTags = async () => {
+  const getNotas = async () => {
     try {
-      const { data } = await api.get('/tags');
+      const { data } = await api.get('/notas');
 
-      setTags(data);
+      setNotas(data);
 
-      const selectedTagsFromNota = nota.Tags.map(notaTag => notaTag.id);
+      const selectedNotasFromTag = notas.Tags.map(notaTag => notaTag.id);
 
-      const filteredTags = data.filter(tag => selectedTagsFromNota.includes(tag.id));
+      const filteredNotas = data.filter(nota => selectedNotasFromTag.includes(nota.id));
     
-      setSelectedTags(filteredTags);
+      setSelectedNotas(filteredNotas);
     } catch (error) {
       console.log(error);
     }
   }
   
   useEffect(() => {
-      getTags();
+      getNotas();
       
-      setSelectedTags([...selectedTags, nota.Tags])
-      setTitulo(nota.titulo)
-      setConteudo(nota.conteudo)
-  }, [nota])
+      setSelectedNotas([...selectedNotas, notas.Tags]) 
+      setTitulo(tag.titulo)
+  }, [tag])
     
   const handleSubmit = async () => {
     try {
@@ -79,13 +77,13 @@ export const FormEditeNota = () => {
     }
   }
 
-  const handleTagClick = (tag) => {
-    const isSelected = selectedTags.includes(tag);
+  const handleNotaClick = (nota) => {
+    const isSelected = selectedNotas.includes(nota);
 
     if (isSelected) {
-      setSelectedTags(selectedTags.filter((selectedTag) => selectedTag !== tag));
+      setSelectedNotas(selectedNotas.filter((selectedNota) => selectedNota !== nota));
     } else {
-      setSelectedTags([...selectedTags, tag]);
+      setSelectedNotas([...selectedNotas, nota]);
     }
   }
 
@@ -109,23 +107,6 @@ export const FormEditeNota = () => {
                     />
                   </div>
               </div>
-              <div className="col-md-4">
-                  <label 
-                    htmlFor="conteudo" 
-                    className="form-label"
-                  >
-                    Conteúdo
-                  </label>
-                  <div  className="d-flex-column">
-                    <input 
-                      type="text" 
-                      className="form-control" 
-                      id="conteudo"
-                      defaultValue={conteudo}
-                      onChange={(e)=> setConteudo(e.target.value)}
-                    />
-                  </div>
-              </div>
               <div className="col-md-3">
                   <label className="form-label">
                       Tags
@@ -138,13 +119,13 @@ export const FormEditeNota = () => {
                       overflow: 'auto'
                     }}
                   >
-                    {tags.map((tag) => (
+                    {notas.map((nota) => (
                       <div
-                        key={tag.id}
-                        className={`btn ${selectedTags.includes(tag) ? 'btn-primary' : 'btn-outline-primary'} me-2 mb-2`}
-                        onClick={() => handleTagClick(tag)}
+                        key={nota.id}
+                        className={`btn ${selectedNotas.includes(nota) ? 'btn-primary' : 'btn-outline-primary'} me-2 mb-2`}
+                        onClick={() => handleNotaClick(nota)}
                       >
-                        {tag.titulo}
+                        {nota.titulo}
                       </div>
                     ))}
                   </div>
@@ -155,7 +136,7 @@ export const FormEditeNota = () => {
                       typeButton={TypeButton.PRIMARY} 
                       type="submit"
                   >
-                      Criar nota
+                      Atualizar tag
                   </Button>
               </div>
           </form> 

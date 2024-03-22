@@ -1,6 +1,6 @@
 
 import { Button, TypeButton } from "@/components/Button"
-import { FormEditeNota } from "./components/FormEditeNota"
+import { FormEditeNota } from "../../edite-nota/components/FormEditeNota"
 
 export const CardNota = ({nota, handleEdit, handleDelete}) =>{
     return(
@@ -24,7 +24,6 @@ export const CardNota = ({nota, handleEdit, handleDelete}) =>{
                         onClick={() => handleEdit(nota)}
                         className="btn btn-primary me-2"
                         typeButton={TypeButton.PRIMARY}
-                        data-bs-toggle="modal" data-bs-target="#exampleModal"
                     >
                         Editar
                     </Button>
@@ -37,7 +36,7 @@ export const CardNota = ({nota, handleEdit, handleDelete}) =>{
                     </Button>
                 </div>
             </div>
-            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            {/* <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
                         <div className="modal-content">
                         <div className="modal-header">
@@ -52,7 +51,7 @@ export const CardNota = ({nota, handleEdit, handleDelete}) =>{
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </>
     )
 }

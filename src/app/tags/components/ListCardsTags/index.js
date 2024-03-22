@@ -6,18 +6,21 @@ import { getTags } from "@/redux/features/tags-slice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { CardTag } from "../CardTag";
+import { useRouter } from "next/navigation";
 
 
 export const ListCardsTags = () =>{
     const dispatch = useDispatch()
     const tags = useSelector((state)=>  state.tagsReducer.value)
     const tagsStatus = useSelector((state)=>  state.tagsReducer.status)
+    const router = useRouter()
 
-    const handleEdit = (id) => {
+    const handleEditTag = (id) => {
         dispatch(getTag(id))
+        router.push('/edite-tag')
     };
 
-    const handleDelete = async (id) => {
+    const handleDeleteTag = async (id) => {
         try {
             const res = await api.delete(`/tags/${id}`);
             
@@ -42,16 +45,19 @@ export const ListCardsTags = () =>{
                 :
                <>
                 {
-                    tagsStatus === 'idle' && tags.length === 0?
+                    tagsStatus === 'idle' && tags.length === 0 &&
                     <p>Não há Tags</p>
-                    :
+                }
+
+                {
+                    Array.isArray(tags) &&
                     <div>
                         {tags.map((tag) => (
                             <CardTag 
                                 key={tag.id}
                                 tag={tag}
-                                handleDelete={handleDelete}
-                                handleEdit={handleEdit}
+                                handleDeleteTag={handleDeleteTag}
+                                handleEditTag={handleEditTag}
                             />
                         ))}
                     </div>
