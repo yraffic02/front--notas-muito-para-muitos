@@ -1,12 +1,15 @@
 'use client'
 
-import { getNotasByTagId } from "@/redux/features/notas-slice"
+import { getNotas, getNotasByTagId } from "@/redux/features/notas-slice"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 
 export const Search = ({tags}) =>{
     const dispatch = useDispatch()
+    const [selectedTag, setSelectedTag] = useState(""); 
     
     const handleSearchNotas = (id) =>{
+        setSelectedTag(id)
         dispatch(getNotasByTagId(id))
     }
 
@@ -16,8 +19,9 @@ export const Search = ({tags}) =>{
             class="form-select w-50 " 
             aria-label="Default select example"
             onChange={(e)=> handleSearchNotas(e.target.value)}
+            defaultValue={selectedTag}
         >
-            <option selected>Filtro tag</option>
+            <option selected value=''>Filtro tag</option>
             {
                 tags.length === 0 &&
                 ''
