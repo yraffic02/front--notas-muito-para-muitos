@@ -3,6 +3,7 @@ import { api } from "@/lib/api";
 import { useEffect, useState } from "react";
 import { Spiner } from "../Spiner";
 import { Button, TypeButton } from "../Button";
+import { Card } from "../Card";
 
 export const ListCards = () =>{
     const [notas, setNotas] = useState([]);
@@ -49,36 +50,12 @@ export const ListCards = () =>{
                 :
                <>
                 {notas.map((nota) => (
-                    <div key={nota.id} className="card mb-3">
-                        <div className="card-body">
-                            <h5 className="card-title">{nota.titulo}</h5>
-                            <p className="card-text">{nota.conteudo}</p>
-                            {
-                                nota.Tags.length > 0 ?
-                                <div className="mb-2">
-                                {nota.Tags.map((tag) => (
-                                    <span key={tag.id} className="badge bg-primary me-1">
-                                    {tag.titulo}
-                                    </span>
-                                ))}
-                                </div>
-                                : <p>Não tags para esta nota!</p>
-                            }
-                            <Button
-                                onClick={() => handleEdit(nota.id)}
-                                className="btn btn-primary me-2"
-                                typeButton={TypeButton.PRIMARY}
-                            >
-                                Editar
-                            </Button>
-                            <Button
-                                onClick={() => handleDelete(nota.id)}
-                                typeButton={TypeButton.SECONDARY}
-                            >
-                                Excluir
-                            </Button>
-                        </div>
-                    </div>
+                    <Card 
+                        key={nota.id}
+                        nota={nota}
+                        handleDelete={handleDelete}
+                        handleEdit={handleEdit}
+                    />
                 ))}
                </>
             }
