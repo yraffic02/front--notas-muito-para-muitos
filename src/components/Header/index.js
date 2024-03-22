@@ -8,7 +8,7 @@ export const Header = ()=>{
                 className="text-decoration-none text-black "
             >
                 <h1 className="m-0 fs-4">
-                    Lista de Notas
+                    Listas
                 </h1>
             </Link>
             <nav>

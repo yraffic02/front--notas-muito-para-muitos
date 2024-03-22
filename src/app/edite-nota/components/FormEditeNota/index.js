@@ -1,6 +1,7 @@
 "use client"
 import { Button, TypeButton } from "@/components/Button";
 import { api } from "@/lib/api";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -11,8 +12,9 @@ export const FormEditeNota = () => {
   const nota = useSelector((state)=>  state.notaReducer.value)
   const [titulo, setTitulo] = useState('')
   const [conteudo, setConteudo] = useState('')
+  const router = useRouter()
   
-  const resolveData = async (data) => {
+  const resolveData = async () => {
       try {
         const updateNota = {
             titulo: titulo,
@@ -72,10 +74,9 @@ export const FormEditeNota = () => {
             theme: "light",
           },
       );
-
-      if(res){
-        router.push('/')
-      }
+        
+      
+      return router.back()
     } catch (error) {
       console.error(error);
     }
@@ -157,7 +158,7 @@ export const FormEditeNota = () => {
                       typeButton={TypeButton.PRIMARY} 
                       type="submit"
                   >
-                      Criar nota
+                      Atualizar nota
                   </Button>
               </div>
           </form> 
