@@ -1,6 +1,7 @@
 "use client"
 import { Button, TypeButton } from "@/components/Button";
 import { api } from "@/lib/api";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -10,6 +11,7 @@ export const FormEditeTag = () => {
   const [selectedNotas, setSelectedNotas] = useState([])
   const [titulo, setTitulo] = useState('')
   const tag = useSelector((state)=>  state.tagReducer.value)
+  const router = useRouter()
 
   const resolveData = async (data) => {
       try {
@@ -71,7 +73,9 @@ export const FormEditeTag = () => {
           },
       );
 
-
+      if(res){
+        router.push('/tags')
+      }
     } catch (error) {
       console.error(error);
     }

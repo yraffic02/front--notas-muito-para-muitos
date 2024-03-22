@@ -73,7 +73,9 @@ export const FormEditeNota = () => {
           },
       );
 
-
+      if(res){
+        router.push('/')
+      }
     } catch (error) {
       console.error(error);
     }
